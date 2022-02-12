@@ -15,13 +15,35 @@ def main():
     ''')
 
     while True:
+        secretNum=getSecretNum()
+
         print(f'I have thought a {NUM_DIGITS} digit number')
         print(f'You have {MAX_GUESSES} chances')
 
         numGuesses=1
 
         while numGuesses<=MAX_GUESSES:
-            guess=input('Enter the number: ')
+            guess=''
+            while len(guess)!=NUM_DIGITS or not guess.isdecimal() :
+                print(f'Guess #{numGuesses}')
+                guess=input('> ')
+            
+            clues=getClues(guess,secretNum)
+            print(clues)
+            numGuesses+=1
+
+            if guess==secretNum:
+                print('You guessed the number correct.')
+                break
+
+            if numGuesses>MAX_GUESSES:
+                print(f'You ran out of chance. The number was {secretNum}')
+                break
+        
+        print('Do you want to play again? (yes/no)')
+        if not input('> ').lower().startswith('y'):
+            break
+    print('Thanks for Playing')
 
 def getSecretNum():
     numbers=list('1234567890')
@@ -43,7 +65,7 @@ def getClues(guess,secretNum):
         
         elif guess[i] in secretNum:
             clues.append('Pico')
-    
+
     if len(clues)==0:
         return 'Bagels'
 
