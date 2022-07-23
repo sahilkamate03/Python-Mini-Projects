@@ -1,0 +1,38 @@
+{% if todos %}
+{% for todo in todos %}
+<!-- todo list card starts -->
+<div class="card border-light ">
+    <div class="card-body ">
+        <div class="row g-0">
+            <div class="col-md-8">
+                <a href="{{ url_for('update', todo_id=todo.id) }}">
+                    <h6 class="card-title">{{todo.title}}</h5>
+                </a>
+            </div>
+            <div class="col-md-4 text-end">
+
+                <button type="button" class="btn btn-outline-primary btn-sm ms-2 deleteTodo">
+                    Done
+                    <p style="display: none;">{{todo.id}}</p>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+<!-- todo list card ends -->
+{% endfor %}
+{% else %}
+<div class="container alert alert-secondary">
+    <h6>No Records. Add your first TODO!</h4>
+</div>
+{% endif %}
+
+<script>
+    todoList = document.getElementsByClassName('deleteTodo')
+    Array.from(todoList).forEach(element => {
+        element.addEventListener('click', function (e) {
+            completeTodo(e)
+        });
+    })
+</script>
