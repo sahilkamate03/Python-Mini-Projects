@@ -1,3 +1,11 @@
+console.log('inside')
+
+var today = new Date();
+var dd = String(today.getDate()).padStart(2, '0');
+var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+var yyyy = today.getFullYear();
+
+today = yyyy + '_' + mm + '_' + dd;
 
 todoList = document.getElementsByClassName('deleteTodo')
 Array.from(todoList).forEach(element => {
@@ -17,7 +25,12 @@ completeTodo = (e) => {
     })
 
     function successFn(result) {
-        getTodoList()
+        if (!dateSelected) {
+            dateSelected = today
+            getTodoList(dateSelected)
+        } else {
+            getTodoList(dateSelected)
+        }
     }
 
     function errorFn(xhr) {
@@ -25,20 +38,6 @@ completeTodo = (e) => {
     }
     console.log(todo_id)
 }
-
-
-// $('form#formTodo').on('submit', function () {
-//     var that = $(this),
-//         url = that.attr('action'),  
-//         method = that.attr('mehod'),
-//         data = {${todoTitle}}
-// })
-
-// submitTodo = document.getElementById('submitTodo')
-// submitTodo.addEventListener('click', addTodo)
-
-// todoTitle = document.getElementById('todoTitle')
-// todoTitle.addEventListener('change', addTodo)
 
 $(document).ready(function () {
     $(document).on('submit', '#formTodo', function () {
@@ -64,9 +63,13 @@ function addTodo() {
         })
 
         function successFn(result) {
-            console.log(todoData)
             noTitle.style.display = 'none'
-            getTodoList()
+            if (!dateSelected) {
+                dateSelected = today
+                getTodoList(dateSelected)
+            } else {
+                getTodoList(dateSelected)
+            }
             document.getElementById("formTodo").reset();
         }
 
@@ -76,16 +79,16 @@ function addTodo() {
     }
 }
 
-function getTodoList() {
+function getTodoList(dateSelected) {
     $.ajax({
         type: 'GET',
-        url: '/getTable',
+        url: '/' + dateSelected + '/getTable',
         success: successFn,
         error: errorFn
     })
 
     function successFn(result) {
-        console.log(result)
+        // console.log(result)
         $("#todoList").html(result)
     }
 
@@ -93,3 +96,15 @@ function getTodoList() {
         console.log('Error: ', xhr)
     }
 }
+
+var dateSelected;
+var date_input = document.getElementById('todoDatePicker');
+date_input.valueAsDate = new Date();
+
+date_input.onchange = function () {
+    dateSelected = this.value.split('-')
+    dateSelected = dateSelected.join('_')
+    getTodoList(dateSelected)
+}
+
+console.log(today);
