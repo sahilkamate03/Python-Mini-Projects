@@ -1,0 +1,25 @@
+body {
+    margin: 0;
+    font-family: Arial;
+}
+
+.container {
+    background-color: white;
+}
+
+#datePickerEvent {
+    color: rgb(0, 123, 194);
+}
+
+
+a {
+    text-decoration: none;
+    color: black;
+
+}
+
+.updateForm{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}

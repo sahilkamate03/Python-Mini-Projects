@@ -1,0 +1,136 @@
+{% extends 'layout.html' %}
+{% block head %}
+<div class="container">
+    <h3 class="mt-4">Plan your Day</h3>
+
+    <!-- collapse  -->
+    <h6 style="color:rgb(121, 119, 117)">
+        <a id="datePickerEvent" data-bs-toggle="collapse" href="#collapseDatePicker" role="button" aria-expanded="false"
+            aria-controls="collapseDatePicker">
+            26 June 2022
+        </a>
+    </h6>
+
+    <div class="collapse" id="collapseDatePicker">
+
+        <input type="date" id="todoDatePicker">
+
+    </div>
+
+    <!-- collapse ends -->
+</div>
+
+
+<!-- form start -->
+<form action="" method="" id="formTodo">
+    {{ form.hidden_tag() }}
+    <div class="container mt-4">
+        <div class="mb-3">
+            <label for="todoTitle" class="form-label">Title</label>
+            <input type="text" class="form-control" id="todoTitle" placeholder="Add Task" required>
+            <small>
+                <p id="noTitle" style="color: rgb(236, 26, 26);display: none;">Please enter the Title!</p>
+            </small>
+        </div>
+        <input type="submit" class="btn btn-primary mb-3" id="submitTodo" value="Add">
+    </div>
+</form>
+<h3 class="container mt-5 mb-4">Your Todo's</h3>
+<!-- form ends -->
+{% endblock head%}}
+
+{% block content %}
+<!-- accordion start -->
+<div class="accordion container" id="chapters">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="heading-1">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#chapter-1"
+                aria-expanded="true" aria-controls="chapter-1">
+                <b>Completed</b>
+            </button>
+        </h2>
+        <div id="chapter-1" class="accordion-collapse collapse" aria-labelledby="heading-1" data-bs-parent="#chapters">
+            <div class="accordion-body completeTodoList">
+                {% if todos_complete %}
+                {% for todo in todos_complete %}
+                <div class="card border-light ">
+                    <div class="card-body ">
+                        <div class="row g-0">
+                            <div class="col-md-8">
+                                <a href="{{ url_for('update', todo_id=todo.id) }}">
+                                    <h6 class="card-title">{{todo.title}}</h5>
+                                </a>
+                            </div>
+                            <div class="col-md-4 text-end">
+
+                                <button type="button" class="btn btn-outline-primary btn-sm ms-2 completeTodo">
+                                    Undo
+                                    <p style="display: none;">{{todo.id}}</p>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- todo list card ends -->
+                {% endfor %}
+                {% else %}
+                <div class="container alert alert-secondary">
+                    <h6>No Records.</h4>
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="heading-5">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#chapter-5" aria-expanded="false" aria-controls="chapter-5">
+                <b>Remaining</b>
+            </button>
+        </h2>
+        <div id="chapter-5" class="accordion-collapse collapse show" aria-labelledby="heading-5" data-bs-parent="#chapters">
+            <div class="accordion-body remainingTodoList">
+                {% if todos_remain %}
+                {% for todo in todos_remain %}
+                <div class="card border-light ">
+                    <div class="card-body ">
+                        <div class="row g-0">
+                            <div class="col-md-8">
+                                <a href="{{ url_for('update', todo_id=todo.id) }}">
+                                    <h6 class="card-title">{{todo.title}}</h5>
+                                </a>
+                            </div>
+                            <div class="col-md-4 text-end">
+
+                                <button type="button" class="btn btn-outline-primary btn-sm ms-2 remainingTodo">
+                                    Done
+                                    <p style="display: none;">{{todo.id}}</p>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- todo list card ends -->
+                {% endfor %}
+                {% else %}
+                <div class="container alert alert-secondary">
+                    <h6>No Records.</h4>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+<!-- accordion ends -->
+{% endblock content%}
+
+
+
+{% block script %}
+<script src="{{ url_for('static',filename='main.js' ) }}"></script>
+{% endblock script%}

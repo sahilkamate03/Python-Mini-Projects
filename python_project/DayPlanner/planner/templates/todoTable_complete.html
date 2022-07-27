@@ -1,0 +1,36 @@
+{% if todos_complete %}
+{% for todo in todos_complete %}
+<div class="card border-light ">
+    <div class="card-body ">
+        <div class="row g-0">
+            <div class="col-md-8">
+                <a href="{{ url_for('update', todo_id=todo.id) }}">
+                    <h6 class="card-title">{{todo.title}}</h5>
+                </a>
+            </div>
+            <div class="col-md-4 text-end">
+
+                <button type="button" class="btn btn-outline-primary btn-sm ms-2 completeTodo">
+                    Undo
+                    <p style="display: none;">{{todo.id}}</p>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- todo list card ends -->
+{% endfor %}
+{% else %}
+<div class="container alert alert-secondary">
+    <h6>No Records.</h4>
+</div>
+{% endif %}
+
+<script>
+    todoList_complete = document.getElementsByClassName('completeTodo')
+    Array.from(todoList_complete).forEach(element => {
+        element.addEventListener('click', function (e) {
+            undoTodo(e)
+        });
+    })
+</script>
