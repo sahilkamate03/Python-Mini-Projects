@@ -1,4 +1,4 @@
-console.log('inside')
+console.log('Flask App by: Sahil Kamate')
 
 var today = new Date();
 var dd = String(today.getDate()).padStart(2, '0');
@@ -37,7 +37,6 @@ undoTodo = (e) => {
     function errorFn(xhr) {
         console.log('Error: ', xhr)
     }
-    console.log(todo_id)
 }
 // undoTodo ends
 
@@ -71,7 +70,6 @@ completeTodo = (e) => {
     function errorFn(xhr) {
         console.log('Error: ', xhr)
     }
-    console.log(todo_id)
 }
 // completeTodo ends
 
@@ -124,8 +122,6 @@ function getTodoList(dateSelected) {
     })
 
     function successFn(result) {
-        // console.log(result)
-        console.log(result)
         $(".remainingTodoList").html(result['remain'])
         $(".completeTodoList").html(result['complete'])
     }
@@ -144,6 +140,3 @@ date_input.onchange = function () {
     dateSelected = dateSelected.join('_')
     getTodoList(dateSelected)
 }
-
-console.log('hello')
-// console.log($(".remainingTodoList"))

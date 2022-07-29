@@ -6,7 +6,7 @@ from planner import db, login_manager
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    return User.query.get(user_id)
 
 class User(db.Model,UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -25,7 +25,7 @@ class Todo(db.Model):
     date_posted = db.Column(db.String(10))
     time_posted = db.Column(db.DateTime, default=datetime.utcnow())
     type = db.Column(db.String(1), default='R')
-    user_id = db.Column(db.Text, db.ForeignKey(
+    user_id = db.Column(db.Integer, db.ForeignKey(
         'user.id'))
 
     def __repr__(self) -> str:

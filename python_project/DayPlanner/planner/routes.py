@@ -11,9 +11,6 @@ from planner import app, db
 from planner.form import todoForm, UpdatetodoForm
 from planner.models import User, Todo
 
-
-os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
-
 GOOGLE_CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID')
 GOOGLE_CLIENT_SECRET = os.environ.get('GOOGLE_CLIENT_SECRET')
 GOOGLE_DISCOVERY_URL = (
@@ -141,7 +138,7 @@ def update(todo_id):
         return render_template('update.html', form=form, todo_data=todo_data)
 
 
-@app.route('/todo/<int:todo_id>/delete', methods=['GET','POST'])
+@app.route('/todo/<int:todo_id>/delete', methods=['GET', 'POST'])
 @login_required
 def delete(todo_id):
     todo_data = Todo.query.get_or_404(todo_id)
@@ -194,13 +191,15 @@ def undo(todo_id):
 @login_required
 def getTable(dateSelected):
     user = User.query.filter_by(email=current_user.email).first()
+    if not(dateSelected):
+        dateSelected = today
     todos_remain = Todo.query.filter_by(
-        user_id=user.id, date_posted=today, type='R').all()
+        user_id=user.id, date_posted=dateSelected, type='R').all()
     todos_complete = Todo.query.filter_by(
-        user_id=user.id, date_posted=today, type='C').all()
+        user_id=user.id, date_posted=dateSelected, type='C').all()
 
     todoTable_remain = render_template(
-        'todoTable_remain.html',  todos_remain=todos_remain)
+        'todoTable_remain.html', todos_remain=todos_remain)
     todoTable_complete = render_template(
         'todoTable_complete.html', todos_complete=todos_complete)
 
