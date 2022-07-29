@@ -2,7 +2,7 @@ console.log('Flask App by: Sahil Kamate')
 
 var today = new Date();
 var dd = String(today.getDate()).padStart(2, '0');
-var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0
 var yyyy = today.getFullYear();
 
 today = yyyy + '_' + mm + '_' + dd;
@@ -73,6 +73,7 @@ completeTodo = (e) => {
 }
 // completeTodo ends
 
+// add todo starts
 $(document).ready(function () {
     $(document).on('submit', '#formTodo', function () {
         addTodo()
@@ -112,7 +113,9 @@ function addTodo() {
         }
     }
 }
+// add todo ends
 
+// get todo starts
 function getTodoList(dateSelected) {
     $.ajax({
         type: 'GET',
@@ -130,7 +133,9 @@ function getTodoList(dateSelected) {
         console.log('Error: ', xhr)
     }
 }
+// get todo ends
 
+// datepicking function starts
 var dateSelected;
 var date_input = document.getElementById('todoDatePicker');
 date_input.valueAsDate = new Date();
@@ -140,3 +145,4 @@ date_input.onchange = function () {
     dateSelected = dateSelected.join('_')
     getTodoList(dateSelected)
 }
+// datepicking function ends
